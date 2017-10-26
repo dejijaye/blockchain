@@ -3,6 +3,7 @@ const Block = require('./block');
 class Blockchain {
     constructor() {
         this.chain = [new Block(0, new Date().toUTCString(), 'I am the genesis block', '0')];
+        this.difficulty = 4;
     }
 
     getPreviousHash() {
@@ -14,6 +15,7 @@ class Blockchain {
         const index = this.chain.length;
         const previousHash = this.getPreviousHash();
         const newBlock = new Block(index, timestamp, data, previousHash);
+        newBlock.mineBlock(this.difficulty);
 
         if(this.isValid(newBlock)) {
             this.chain.push(newBlock);
@@ -35,4 +37,10 @@ class Blockchain {
 
         return true;
     }
+
+    printChain() {
+        console.log(this.chain);
+    }
 }
+
+module.exports = Blockchain;
